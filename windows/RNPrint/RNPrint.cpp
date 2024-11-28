@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "RNPrint.h"
+#include "winrt/Windows.Graphics.Printing.OptionDetails.h"
 
 namespace winrt::RNPrint
 {
@@ -253,12 +254,24 @@ namespace winrt::RNPrint
                 args.SetSource(printDocSource);
               }
             );
+            auto displayedOptions = printTask.Options().DisplayedOptions();
+            displayedOptions.Clear();
+            displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::Copies());
+            displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::MediaSize());
+            displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::Orientation());
+            displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::PrintQuality());
+            displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::Collation());
+            displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::Duplex());
+            printTask.Options().MediaSize(PrintMediaSize::IsoA4);
+            printTask.Options().NumberOfCopies(1);
+            printTask.Options().Collation(PrintCollation::Default);
             if (options.isLandscape)
             {
-              printTask.Options().Orientation(PrintOrientation::Landscape);
-            } else
+                printTask.Options().Orientation(PrintOrientation::Landscape);
+            }
+            else
             {
-              printTask.Options().Orientation(PrintOrientation::Portrait);
+                printTask.Options().Orientation(PrintOrientation::Portrait);
             }
 
             printTask.Completed([=](PrintTask const& sender, PrintTaskCompletedEventArgs const& args)
