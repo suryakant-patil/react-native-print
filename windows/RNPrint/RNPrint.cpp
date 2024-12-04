@@ -158,6 +158,13 @@ namespace winrt::RNPrint
         StorageFile pdfFile = nullptr;
         pdfFile = co_await StorageFile::GetFileFromPathAsync(winrt::to_hstring(*capturedOptions.filePath));
         pdfDocument = co_await PdfDocument::LoadFromFileAsync(pdfFile);
+
+        auto filePath = winrt::to_string(winrt::to_hstring(*capturedOptions.filePath));
+        winrt::Windows::Foundation::Uri uri(winrt::to_hstring(filePath));
+        winrt::Windows::System::Launcher::LaunchFileAsync(pdfFile);
+        cleanUp();
+        capturedPromise.Resolve(true);
+        co_return;
       }
       if (pdfDocument == nullptr)
       {
@@ -262,7 +269,9 @@ namespace winrt::RNPrint
             displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::PrintQuality());
             displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::Collation());
             displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::Duplex());
+            displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::FitToPage());
             printTask.Options().MediaSize(PrintMediaSize::IsoA4);
+            printTask.Options().FitToPage(true);
             printTask.Options().NumberOfCopies(1);
             printTask.Options().Collation(PrintCollation::Default);
             if (options.isLandscape)
