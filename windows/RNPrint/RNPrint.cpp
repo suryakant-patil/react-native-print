@@ -308,6 +308,12 @@ namespace winrt::RNPrint
     }
   }
 
+  void RNPrint::OpenPdfFile(const std::string& filePath)
+{
+    winrt::Windows::Foundation::Uri uri(winrt::to_hstring(filePath));
+    winrt::Windows::System::Launcher::LaunchUriAsync(uri);
+}
+
   void RNPrint::Print(JSValueObject&& options, ReactPromise<JSValue> promise) noexcept
   {
     bool ok_to_go_ahead = true;

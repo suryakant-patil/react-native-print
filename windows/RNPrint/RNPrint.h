@@ -82,6 +82,8 @@ namespace winrt::RNPrint
       RNPrintOptions options,
       ReactPromise<JSValue> promise) noexcept;
 
+    void OpenPdfFile(const std::string& filePath);
+    
     REACT_METHOD(Print, L"print");
     void Print(JSValueObject&& options, ReactPromise<JSValue> promise) noexcept;
 
