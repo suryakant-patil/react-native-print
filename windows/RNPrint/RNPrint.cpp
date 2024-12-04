@@ -269,9 +269,9 @@ namespace winrt::RNPrint
             displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::PrintQuality());
             displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::Collation());
             displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::Duplex());
-            displayedOptions.Append(winrt::Windows::Graphics::Printing::StandardPrintTaskOptions::FitToPage());
+            
             printTask.Options().MediaSize(PrintMediaSize::IsoA4);
-            printTask.Options().FitToPage(true);
+            
             printTask.Options().NumberOfCopies(1);
             printTask.Options().Collation(PrintCollation::Default);
             if (options.isLandscape)
